@@ -17,7 +17,8 @@
     <button ng-click="loadInput()">Load</button>
     <button ng-click="clearCompleted()">Clear Completed</button>
     <button ng-click="showCompleted()">Show Completed</button>
-    <button ng-click="exportData()">Export</button>
+    <button ng-click="exportPartialData()">Export Partial Data</button>
+    <button ng-click="exportFullData()">Export Full Data</button>
     <ul>
       <li ng-repeat="todo in todos">
         <input type="checkbox" ng-model="todo.done"/>
@@ -39,9 +40,14 @@ ToDo.controller('todoController', function($scope, $localStorage){
     {'title':'Build a ToDo app', 'done' :false}
   ];
   $scope.Saved = [];
-   $scope.exportData = function () {
-       alasql('SELECT * INTO XLSX("mydata.xlsx",{headers:true}) FROM ?',[$scope.todos]);
+  $scope.exportPartialData = function () {
+       alasql('SELECT * INTO XLSX("PartialReport.xlsx",{headers:true}) FROM ?',[$scope.todos]);
     };
+  $scope.exportFullData = function () {
+     $scope.full=$scope.todos
+      $scope.full.concat($scope.Saved);
+     alasql('SELECT * INTO XLSX("FullReport.xlsx",{headers:true}) FROM ?',[$scope.full]);
+   };
   $scope.addTodo = function(){
     $scope.todos.push({'title' : $scope.newTodo, 'done' :false})
     $scope.newtodo = ''
@@ -49,7 +55,7 @@ ToDo.controller('todoController', function($scope, $localStorage){
   $scope.clearCompleted = function(){
     $scope.todos = $scope.todos.filter(function(item){
       if(item.done){
-        $scope.Saved.push(item.title);
+        $scope.Saved.push(item);
       }
       return !item.done
     })
