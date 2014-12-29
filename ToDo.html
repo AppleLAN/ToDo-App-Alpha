@@ -17,6 +17,7 @@
     <button ng-click="loadInput()">Load</button>
     <button ng-click="clearCompleted()">Clear Completed</button>
     <button ng-click="showCompleted()">Show Completed</button>
+    <button ng-click="exportData()">Export</button>
     <ul>
       <li ng-repeat="todo in todos">
         <input type="checkbox" ng-model="todo.done"/>
@@ -24,6 +25,8 @@
       </li>
     </ul>
   </div>
+<script src="http://alasql.org/console/alasql.min.js"></script>
+<script src="http://alasql.org/console/xlsx.core.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
 <script src="ngStorage.min.js"></script>
 <script src="http://gregpike.net/demos/angular-local-storage/src/angular-local-storage.js"></script>
@@ -36,6 +39,9 @@ ToDo.controller('todoController', function($scope, $localStorage){
     {'title':'Build a ToDo app', 'done' :false}
   ];
   $scope.Saved = [];
+   $scope.exportData = function () {
+       alasql('SELECT * INTO XLSX("mydata.xlsx",{headers:true}) FROM ?',[$scope.todos]);
+    };
   $scope.addTodo = function(){
     $scope.todos.push({'title' : $scope.newTodo, 'done' :false})
     $scope.newtodo = ''
