@@ -10,10 +10,13 @@
 <body>
   <div ng-controller="todoController">
     <form name="frm" ng-submit="addTodo()">
-      <input type="text" name="newTodo" ng-model="newTodo" required />
+      <input type="text" name="newTodo" ng-model="newTodo" required/>
       <button ng-disabled="frm.$invalid">Go</button>
     </form>
+    <button ng-click="saveInput()">Save</button>
+    <button ng-click="loadInput()">Load</button>
     <button ng-click="clearCompleted()">Clear Completed</button>
+    <button ng-click="showCompleted()">Show Completed</button>
     <ul>
       <li ng-repeat="todo in todos">
         <input type="checkbox" ng-model="todo.done"/>
@@ -21,26 +24,40 @@
       </li>
     </ul>
   </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+<script src="ngStorage.min.js"></script>
+<script src="http://gregpike.net/demos/angular-local-storage/src/angular-local-storage.js"></script>
+
 <script>
 
-angular.module('ToDo',[]).
-controller('todoController',['$scope', function($scope){
+var ToDo =angular.module('ToDo',['ngStorage']);
+ToDo.controller('todoController', function($scope, $localStorage){
   $scope.todos = [
     {'title':'Build a ToDo app', 'done' :false}
   ];
-
+  $scope.Saved = [];
   $scope.addTodo = function(){
     $scope.todos.push({'title' : $scope.newTodo, 'done' :false})
     $scope.newtodo = ''
   }
   $scope.clearCompleted = function(){
     $scope.todos = $scope.todos.filter(function(item){
+      if(item.done){
+        $scope.Saved.push(item.title);
+      }
       return !item.done
     })
   }
-  }])
+  $scope.showCompleted = function(){
+    alert($scope.Saved.length)
+  }
+  $scope.saveInput = function() {
+    $localStorage.Saved = $scope.todos;
+  }
+  $scope.loadInput = function() {
+    $scope.todos = $localStorage.Saved;
+  }
+});
 </script>
 </body>
 </html>
