@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <title>todo</title>
   <style>
+  body{padding: 20px; background-color: #BDF1F1;}
+  button{ padding: 10px; background-color: #00CCCC; color:#ffffff; font-family: helvetica,arial; font-size: 20px; line-height: 24px; border-style:  groove; border-radius: 15px; border-color: #4C6060;}
+  li{ padding: 10px; background-color: #ffffff; color:#333333; font-family: helvetica,arial; font-size: 20px; line-height: 24px; border-style:  groove; border-radius: 15px;border-color: #4C6060;}
+  form{ padding: 5px;}
+
   .done{text-decoration: line-through;color: #ccc;}
   </style>
 </head>
@@ -45,7 +50,7 @@ ToDo.controller('todoController', function($scope, $localStorage){
     };
   $scope.exportFullData = function () {
      $scope.full=$scope.todos
-      $scope.full.concat($scope.Saved);
+     $scope.full.concat($scope.Saved);
      alasql('SELECT * INTO XLSX("FullReport.xlsx",{headers:true}) FROM ?',[$scope.full]);
    };
   $scope.addTodo = function(){
