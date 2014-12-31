@@ -46,9 +46,7 @@ function pick(){
 }
 var ToDo =angular.module('ToDo',['ngStorage']);
 ToDo.controller('todoController', function($scope, $localStorage){
-  $scope.todos = [
-    {'title':'Build a ToDo app', 'done' :false}
-  ];
+  $scope.todos = [];
   $scope.Saved = [];
   $scope.exportPartialData = function () {
        alasql('SELECT * INTO XLSX("PartialReport.xlsx",{headers:true}) FROM ?',[$scope.todos]);
@@ -80,7 +78,12 @@ ToDo.controller('todoController', function($scope, $localStorage){
     $scope.todos = $localStorage.Saved;
   }
   $scope.init = function(){
-    $scope.todos = $localStorage.Saved;
+    if($localStorage.Saved != undefined)
+      $scope.todos = $localStorage.Saved;
+    else
+      $scope.todos = [
+       {'title':'Build a ToDo app', 'done' :false}
+      ];
   };
   window.onbeforeunload = function (event) {
   var message = 'Sure you want to leave?';
