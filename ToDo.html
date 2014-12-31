@@ -5,7 +5,7 @@
   <title>todo</title>
   <style>
   body{padding: 20px; background-color: #BDF1F1;}
-  button{ padding: 10px; background-color: #00CCCC; color:#ffffff; font-family: helvetica,arial; font-size: 20px; line-height: 24px; border-style:  groove; border-radius: 15px; border-color: #4C6060;}
+  button{ padding: 10px; background-color: darken(#BDF1F1, 10%); color:#ffffff; font-family: helvetica,arial; font-size: 20px; line-height: 24px; border-style:  groove; border-radius: 15px; border-color: #4C6060;}
   li{ padding: 10px; background-color: #ffffff; color:#333333; font-family: helvetica,arial; font-size: 20px; line-height: 24px; border-style:  groove; border-radius: 15px;border-color: #4C6060;}
   form{ padding: 5px;}
   .done{text-decoration: line-through;color: #ccc;}
@@ -23,15 +23,16 @@
     <button ng-click="clearCompleted()">Clear Completed</button>
     <button ng-click="showCompleted()">Show Completed</button>
     <button ng-click="exportPartialData()">Export Partial Data</button>
-<!--     <button ng-click="exportFullData()">Export Full Data</button>
- -->    <ul>
+    <button ng-click="exportFullData()">Export Full Data</button>
+    <ul>
       <li ng-repeat="todo in todos">
         <input type="checkbox" ng-model="todo.done"/>
         <span ng-class="{'done':todo.done}">{{todo.title}}</span>
       </li>
     </ul>
   </div>
-<script type="text/javascript" src="jscolor.js"></script>
+
+<script type="text/javascript" src="jscolor/jscolor.js"></script>
 <script src="http://alasql.org/console/alasql.min.js"></script>
 <script src="http://alasql.org/console/xlsx.core.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
